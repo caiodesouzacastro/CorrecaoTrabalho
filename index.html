@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Correção Econometria I</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{--bg:#f3f6fa;--panel:#ffffff;--ink:#1a2433;--muted:#5b6778;--accent:#0b3a6e;--accent2:#1f5fa8;--line:#d7dee8;--err:#b42318}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell}
+    .topo{background:var(--accent);color:#fff;padding:18px 16px}
+    .topo .in{max-width:900px;margin:0 auto}
+    .topo h1{margin:0;font-size:1.5rem}
+    .topo p{margin:4px 0 0;color:#c9d7ea;font-size:14px}
+    .wrap{max-width:900px;margin:0 auto;padding:20px 16px 48px}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(11,58,110,.06)}
+    label{display:block;font-size:14px;color:var(--muted);margin-bottom:6px;font-weight:600}
+    input[type=text],input[type=password],textarea{width:100%;padding:11px 12px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);font:inherit}
+    input:focus,textarea:focus{outline:2px solid var(--accent2);border-color:transparent}
+    textarea{resize:vertical}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:640px){.row{grid-template-columns:1fr}}
+    .drop{border:2px dashed #a9b8cc;border-radius:10px;padding:26px 16px;text-align:center;cursor:pointer;color:var(--muted);transition:.15s;background:#f8fafd}
+    .drop:hover,.drop.over{border-color:var(--accent2);color:var(--ink)}
+    .drop strong{color:var(--accent)}
+    .file{margin-top:10px;font-size:14px;color:var(--accent2);word-break:break-all}
+    .send{width:100%;background:var(--accent);color:#fff;border:none;padding:13px;border-radius:8px;font-weight:700;font-size:16px;cursor:pointer;margin-top:16px}
+    .send:hover{background:var(--accent2)}
+    .send[disabled]{opacity:.5;cursor:not-allowed}
+    .status{margin-top:12px;font-size:14px;color:var(--muted);min-height:20px}
+    .status.err{color:var(--err)}
+    .rules{font-size:14px;color:var(--muted);margin:0;padding-left:18px}
+    .rules li{margin:4px 0}
+    #out{display:none}
+    .nota{display:flex;align-items:baseline;gap:12px;background:var(--accent);color:#fff;border-radius:10px;padding:14px 18px;margin-bottom:16px}
+    .nota b{font-size:2rem}
+    #feedback h2{font-size:1.1rem;margin:22px 0 8px;color:var(--accent);border-bottom:2px solid var(--line);padding-bottom:6px}
+    #feedback h2:first-child{margin-top:0}
+    #feedback h3{font-size:1rem;margin:16px 0 6px;color:var(--accent2)}
+    #feedback h4{font-size:.95rem;margin:14px 0 6px;color:var(--muted)}
+    #feedback p{margin:8px 0}
+    #feedback ul,#feedback ol{margin:6px 0 10px;padding-left:22px}
+    #feedback li{margin:4px 0}
+    #feedback .tw{overflow-x:auto;margin:10px 0}
+    #feedback table{border-collapse:collapse;width:100%;font-size:14px}
+    #feedback th,#feedback td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+    #feedback th{background:#e8eef6;color:var(--accent)}
+    #feedback hr{border:none;border-top:1px solid var(--line);margin:18px 0}
+    #feedback blockquote{margin:8px 0;padding:6px 12px;border-left:3px solid var(--accent2);background:#f3f6fa}
+    #feedback code{background:#e8eef6;padding:1px 5px;border-radius:4px}
+    .tools{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .btn{background:#fff;border:1px solid var(--accent);color:var(--accent);border-radius:8px;padding:9px 14px;cursor:pointer;font:inherit;font-size:14px;font-weight:600}
+    .btn:hover{background:#e8eef6}
+    .spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);border-top-color:transparent;border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px;margin-right:6px}
+    @keyframes s{to{transform:rotate(360deg)}}
+    @media print{.topo{-webkit-print-color-adjust:exact;print-color-adjust:exact}.card:first-of-type,#formCard,.tools{display:none!important}#out{display:block!important;border:none;box-shadow:none}.nota{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  </style>
+</head>
+<body>
+<div class="topo"><div class="in">
+  <h1>Correção dos trabalhos · Econometria I</h1>
+  <p>Segunda leitura por IA para comparar com a correção humana</p>
+</div></div>
+<div class="wrap">
+  <div class="card">
+    <ul class="rules">
+      <li>A IA lê o trabalho inteiro, inclusive tabelas, figuras e equações (as páginas do PDF são enviadas como imagem), lê os códigos em R e propõe uma nota por critério. A nota final é sempre dos docentes.</li>
+      <li>Rubrica provisória: introdução 1,0; dados 2,0; método 2,0; resultados 2,0; conclusão e limitações 2,0; código em R e reprodutibilidade 1,0. Português e ABNT não pontuam.</li>
+      <li>Prefira PDF. O código não é executado: a IA analisa por leitura e confere se bate com o texto.</li>
+      <li>A correção aparece nesta página e pode ser baixada em HTML ou impressa em PDF. Nada fica salvo.</li>
+    </ul>
+  </div>
+
+  <div class="card" id="formCard">
+    <label>Trabalho (PDF ou Word)</label>
+    <div class="drop" id="drop">
+      <strong>Clique para escolher</strong> ou arraste o arquivo aqui<br/>
+      <span style="font-size:13px">.pdf ou .docx</span>
+      <div class="file" id="fileName"></div>
+    </div>
+    <input type="file" id="fileInput" accept=".pdf,.docx" hidden />
+
+    <div style="height:16px"></div>
+    <label>Códigos em R (um ou mais arquivos)</label>
+    <div class="drop" id="dropCod">
+      <strong>Clique para escolher</strong> ou arraste os arquivos aqui<br/>
+      <span style="font-size:13px">.R, .Rmd, .qmd ou .txt</span>
+      <div class="file" id="codNames"></div>
+    </div>
+    <input type="file" id="codInput" accept=".R,.r,.Rmd,.rmd,.qmd,.txt" multiple hidden />
+
+    <div style="height:16px"></div>
+    <label for="foco">Observação para a correção (opcional)</label>
+    <textarea id="foco" rows="2" maxlength="1000" placeholder="Ex.: a dupla mudou de base com autorização"></textarea>
+    <button class="send" id="send" disabled>Corrigir</button>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div class="card" id="out">
+    <div class="nota"><span>Nota proposta pela IA</span><b id="nota">–</b><span>de 10</span></div>
+    <div id="feedback"></div>
+    <div class="tools">
+      <button class="btn" id="baixar">Baixar correção (.html)</button>
+      <button class="btn" id="imprimir">Imprimir ou salvar em PDF</button>
+      <button class="btn" id="copy">Copiar texto</button>
+      <button class="btn" id="nova">Corrigir outro trabalho</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+  const API_URL = 'https://script.google.com/macros/s/AKfycbwP8LKJjhaQH2CD2ybZ5LqM5KpDtyUS91ih3ZBG7gU13IDwLnoJwayNsp1Kk3xn-_wP/exec';
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  const MAX_PAG = 20, LARGURA = 1200, QUAL = 0.72;
+
+  const $ = id => document.getElementById(id);
+  let file = null, codigos = [], rawFeedback = '', notaTxt = '–';
+
+  function refresh() { $('send').disabled = !file; }
+  function status(msg, err=false, spin=false) {
+    $('status').className = 'status' + (err ? ' err' : '');
+    $('status').innerHTML = (spin ? '<span class="spin"></span>' : '') + escapeHtml(msg);
+  }
+  function setFile(f) {
+    if (!f) return;
+    if (!/\.(pdf|docx)$/i.test(f.name)) { status('Formato não aceito. Envie .pdf ou .docx.', true); return; }
+    file = f; $('fileName').textContent = f.name; status(''); refresh();
+  }
+  async function setCodigos(list) {
+    codigos = [];
+    for (const f of [...list].slice(0, 10)) {
+      if (!/\.(r|rmd|qmd|txt)$/i.test(f.name)) continue;
+      codigos.push({ nome: f.name, conteudo: await f.text() });
+    }
+    $('codNames').textContent = codigos.map(c => c.nome).join(', ');
+  }
+  function wireDrop(zone, input, onFiles) {
+    $(zone).onclick = () => $(input).click();
+    $(input).onchange = e => onFiles(e.target.files);
+    $(zone).ondragover = e => { e.preventDefault(); $(zone).classList.add('over'); };
+    $(zone).ondragleave = () => $(zone).classList.remove('over');
+    $(zone).ondrop = e => { e.preventDefault(); $(zone).classList.remove('over'); onFiles(e.dataTransfer.files); };
+  }
+  wireDrop('drop', 'fileInput', fs => setFile(fs[0]));
+  wireDrop('dropCod', 'codInput', fs => setCodigos(fs));
+
+  function reduz(img) {
+    const c = document.createElement('canvas');
+    const k = Math.min(1, LARGURA / img.width);
+    c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+    const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height);
+    g.drawImage(img, 0, 0, c.width, c.height);
+    return c.toDataURL('image/jpeg', QUAL);
+  }
+  function carregaImg(src) {
+    return new Promise((ok, erro) => { const i = new Image(); i.onload = () => ok(i); i.onerror = erro; i.src = src; });
+  }
+
+  async function lePdf(buf) {
+    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+    const textos = [], imagens = [];
+    for (let p = 1; p <= pdf.numPages; p++) {
+      const page = await pdf.getPage(p);
+      const c = await page.getTextContent();
+      textos.push('[Página ' + p + ']\n' + c.items.map(i => i.str).join(' '));
+      if (p <= MAX_PAG) {
+        status('Lendo a página ' + p + ' de ' + pdf.numPages + '...', false, true);
+        const vp0 = page.getViewport({ scale: 1 });
+        const vp = page.getViewport({ scale: LARGURA / vp0.width });
+        const cv = document.createElement('canvas'); cv.width = vp.width; cv.height = vp.height;
+        await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+        imagens.push(cv.toDataURL('image/jpeg', QUAL));
+      }
+    }
+    return { texto: textos.join('\n\n'), imagens, paginas: pdf.numPages, formato: 'pdf' };
+  }
+
+  async function leDocx(buf) {
+    const imgs = [];
+    const r = await mammoth.convertToHtml({ arrayBuffer: buf }, {
+      convertImage: mammoth.images.imgElement(im => im.read('base64').then(b => {
+        imgs.push('data:' + im.contentType + ';base64,' + b);
+        return { src: 'img' + imgs.length };
+      }))
+    });
+    const div = document.createElement('div'); div.innerHTML = r.value;
+    div.querySelectorAll('table').forEach((t, i) => {
+      const linhas = [...t.rows].map(tr => '| ' + [...tr.cells].map(td => td.innerText.trim().replace(/\s+/g, ' ')).join(' | ') + ' |');
+      const pre = document.createElement('p'); pre.textContent = '\n[Tabela ' + (i + 1) + ']\n' + linhas.join('\n') + '\n';
+      t.replaceWith(pre);
+    });
+    div.querySelectorAll('img').forEach((im, i) => { const p = document.createElement('span'); p.textContent = ' [Figura ' + (i + 1) + '] '; im.replaceWith(p); });
+    div.querySelectorAll('p,h1,h2,h3,h4,li').forEach(el => el.append('\n'));
+    const imagens = [];
+    for (const src of imgs.slice(0, MAX_PAG)) {
+      try { imagens.push(reduz(await carregaImg(src))); } catch (e) {}
+    }
+    return { texto: div.textContent, imagens, paginas: 0, formato: 'docx' };
+  }
+
+  $('send').onclick = async () => {
+    $('send').disabled = true;
+    try {
+      status('Lendo o arquivo...', false, true);
+      const buf = await file.arrayBuffer();
+      const lido = /\.pdf$/i.test(file.name) ? await lePdf(buf) : await leDocx(buf);
+      const texto = lido.texto.replace(/[ \t]+/g, ' ').trim();
+      if (texto.length < 300 && !lido.imagens.length) { status('Não consegui ler o arquivo.', true); refresh(); return; }
+      status('Corrigindo' + (codigos.length ? ' trabalho e ' + codigos.length + ' arquivo(s) de código' : '') + '. Pode levar até 4 minutos, não feche a página...', false, true);
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ modo: 'correcao', arquivo: file.name, texto, foco: $('foco').value.trim(),
+          formato: lido.formato, paginas: lido.paginas, imagens: lido.imagens, codigos })
+      });
+      let data = {};
+      try { data = await res.json(); } catch (e) {}
+      if (!res.ok || !data.feedback) { status(data.error || 'Não foi possível gerar a correção agora. Tente de novo mais tarde.', true); refresh(); return; }
+      rawFeedback = data.feedback;
+      notaTxt = (data.nota === '' || data.nota == null) ? '–' : String(data.nota).replace('.', ',');
+      $('nota').textContent = notaTxt;
+      $('feedback').innerHTML = md(rawFeedback);
+      $('formCard').style.display = 'none';
+      $('out').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      status('Não consegui concluir. Verifique a conexão e tente de novo.', true);
+      refresh();
+    }
+  };
+
+  function nomeBase() { return 'correcao-' + file.name.replace(/\.[^.]+$/, '').replace(/[^\w.-]+/g, '_'); }
+  $('baixar').onclick = () => {
+    const estilo = document.querySelector('style').outerHTML;
+    const doc = '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>' + escapeHtml(nomeBase()) + '</title>' + estilo +
+      '</head><body><div class="topo"><div class="in"><h1>Correção · ' + escapeHtml(file.name) + '</h1><p>Gerada em ' + new Date().toLocaleString('pt-BR') +
+      (codigos.length ? ' · códigos: ' + escapeHtml(codigos.map(c => c.nome).join(', ')) : '') + '</p></div></div><div class="wrap"><div class="card" style="display:block">' +
+      '<div class="nota"><span>Nota proposta pela IA</span><b>' + notaTxt + '</b><span>de 10</span></div><div id="feedback">' + $('feedback').innerHTML + '</div></div></div></body></html>';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([doc], { type: 'text/html;charset=utf-8' }));
+    a.download = nomeBase() + '.html'; a.click();
+  };
+  $('imprimir').onclick = () => window.print();
+  $('copy').onclick = async () => {
+    try { await navigator.clipboard.writeText(rawFeedback); $('copy').textContent = 'Copiado!'; }
+    catch (e) { $('copy').textContent = 'Não foi possível copiar'; }
+    setTimeout(() => $('copy').textContent = 'Copiar texto', 2000);
+  };
+  $('nova').onclick = () => {
+    file = null; codigos = []; $('fileName').textContent = ''; $('codNames').textContent = '';
+    $('fileInput').value = ''; $('codInput').value = ''; $('foco').value = '';
+    $('out').style.display = 'none'; $('formCard').style.display = 'block'; status(''); refresh();
+  };
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+  function inline(s) {
+    return escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/(^|[^*])\*(?!\s)(.+?)\*/g, '$1<em>$2</em>');
+  }
+  function md(src) {
+    const lines = String(src).replace(/\r/g, '').split('\n');
+    let html = '', list = null, tab = null;
+    const closeTab = () => {
+      if (!tab) return;
+      const rows = tab.filter(r => !/^\s*\|?\s*:?-{2,}/.test(r));
+      const cells = r => r.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => inline(c.trim()));
+      html += '<div class="tw"><table>';
+      rows.forEach((r, i) => { const t = i === 0 ? 'th' : 'td'; html += '<tr>' + cells(r).map(c => `<${t}>${c}</${t}>`).join('') + '</tr>'; });
+      html += '</table></div>'; tab = null;
+    };
+    const close = () => { closeTab(); if (list) { html += `</${list}>`; list = null; } };
+    for (const l of lines) {
+      let m;
+      if (/^\s*\|.*\|\s*$/.test(l)) { if (list) { html += `</${list}>`; list = null; } (tab = tab || []).push(l); continue; }
+      closeTab();
+      if (/^\s*(-{3,}|\*{3,}|_{3,})\s*$/.test(l)) { close(); html += '<hr>'; continue; }
+      if (m = l.match(/^#{1,2}\s+(.*)/)) { close(); html += `<h2>${inline(m[1])}</h2>`; }
+      else if (m = l.match(/^###\s+(.*)/)) { close(); html += `<h3>${inline(m[1])}</h3>`; }
+      else if (m = l.match(/^#{4,}\s+(.*)/)) { close(); html += `<h4>${inline(m[1])}</h4>`; }
+      else if (m = l.match(/^\s*>\s?(.*)/)) { close(); if (m[1].trim()) html += `<blockquote>${inline(m[1])}</blockquote>`; }
+      else if (m = l.match(/^\s*[-*•]\s+(.*)/)) { if (list !== 'ul') { close(); html += '<ul>'; list = 'ul'; } html += `<li>${inline(m[1])}</li>`; }
+      else if (m = l.match(/^\s*\d+[.)]\s+(.*)/)) { if (list !== 'ol') { close(); html += '<ol>'; list = 'ol'; } html += `<li>${inline(m[1])}</li>`; }
+      else if (l.trim() === '') { close(); }
+      else { close(); html += `<p>${inline(l)}</p>`; }
+    }
+    close();
+    return html;
+  }
+</script>
+</body>
+</html>
